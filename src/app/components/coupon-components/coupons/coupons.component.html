@@ -1,0 +1,67 @@
+<form [formGroup]="couponsFilterForm" (ngSubmit)="onSubmit()" class="form-inline mb-3">
+  <button *ngIf="isCustomer" class="btn btn-primary mx-5" (click)="showAllCoupons()">Show all
+    coupons in system</button>
+  <span class="form-group">
+    <span class="ml-4 font-weight-bold">Filter options for your coupons:</span>
+    <select formControlName="filterSelect" class="form-control mx-1" #filterSelected (change)="onFilterChange()">
+      <option *ngFor="let filter of filterTypes">{{filter}}</option>
+    </select>
+  </span>
+  <span class="form-group" *ngIf="filterSelected.value=='Show by type'">
+    <span class="ml-4 font-weight-bold">Type:</span>
+    <select formControlName="couponTypeSelect" class="form-control mx-1"
+      [ngClass]="{ 'is-invalid': submitted && couponsFilterForm.controls['couponTypeSelect'].errors}">
+      <option *ngFor="let type of sharedService.getOnceCouponTypes()">{{type}}</option>
+    </select>
+    <div class="invalid-feedback" *ngIf="submitted && couponsFilterForm.controls['couponTypeSelect'].errors">
+      <div *ngIf="submitted && couponsFilterForm.controls['couponTypeSelect'].errors.required">
+        Type is required
+      </div>
+    </div>
+  </span>
+  <span class="form-group" *ngIf="filterSelected.value=='Show up to a price'">
+    <span class="ml-4 font-weight-bold">Price($):</span>
+    <input type="text" formControlName="priceSelect" class="form-control mx-1"
+      [ngClass]="{ 'is-invalid': submitted && couponsFilterForm.controls['priceSelect'].errors}" />
+    <div class="invalid-feedback" *ngIf="submitted && couponsFilterForm.controls['priceSelect'].errors">
+      <div *ngIf="submitted && couponsFilterForm.controls['priceSelect'].errors.required">
+        Price is required
+      </div>
+    </div>
+    <div class="invalid-feedback" *ngIf="submitted && couponsFilterForm.controls['priceSelect'].errors">
+      <div *ngIf="submitted && couponsFilterForm.controls['priceSelect'].errors.pattern">
+        Invalid price
+      </div>
+    </div>
+  </span>
+  <span class="form-group" *ngIf="filterSelected.value=='Show up to an end date'">
+    <span class="ml-4 font-weight-bold">End date:</span>
+    <input type="date" formControlName="endDateSelect" class="form-control mx-1"
+      [ngClass]="{ 'is-invalid': submitted && couponsFilterForm.controls['endDateSelect'].errors}" />
+    <div class="invalid-feedback" *ngIf="submitted && couponsFilterForm.controls['endDateSelect'].errors">
+      <div *ngIf="submitted && couponsFilterForm.controls['endDateSelect'].errors.required">
+        End date is required
+      </div>
+    </div>
+  </span>
+  <div class="row">
+    <button *ngIf="isCompany" class="btn btn-primary mx-5" (click)="showCoupons()">Show
+      coupons</button>
+  </div>
+  <div class="row">
+    <button *ngIf="isCustomer" class="btn btn-primary mx-5" (click)="showPurchaseHistory()">Show
+      purchase history</button>
+  </div>
+</form>
+<div class="row">
+  <button *ngIf="isCompany" class="btn btn-primary ml-5 mb-4" (click)="addCoupon()">Add
+    coupon</button>
+</div>
+<div class="row">
+  <div *ngIf="!coupons">Loading...
+  </div>
+  <div *ngIf="coupons" class="col-md-12">
+    <app-coupon-details *ngFor="let c of coupons" [coupon]="c" [allowPurchase]="allowPurchase">
+    </app-coupon-details>
+  </div>
+</div>

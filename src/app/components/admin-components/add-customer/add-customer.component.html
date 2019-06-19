@@ -1,0 +1,48 @@
+<div class="jumbotron">
+  <div class="container">
+    <div class="row my-5">
+      <div class="col-md-4 offset-md-4 my-5">
+        <h3>Add Customer</h3>
+        <form [formGroup]="addCustomerForm" (ngSubmit)="onSubmit()" class="my-5">
+          <div class="form-group">
+            <label>Name:</label>
+            <input type="text" formControlName="name" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && addCustomerForm.controls['name'].errors}" />
+            <div class="invalid-feedback" *ngIf="submitted && addCustomerForm.controls['name'].errors">
+              <div *ngIf="addCustomerForm.controls['name'].errors.required">
+                User name is required
+              </div>
+              <div *ngIf="addCustomerForm.controls['name'].errors.minlength">
+                Name is too short
+              </div>
+              <div *ngIf="addCustomerForm.controls['name'].errors.maxlength">
+                Name is too long
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Password:</label>
+            <input type="text" formControlName="password" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && addCustomerForm.controls['password'].errors}" />
+            <div class="invalid-feedback" *ngIf="submitted && addCustomerForm.controls['password'].errors">
+              <div *ngIf="addCustomerForm.controls['password'].errors.required">
+                Password is required
+              </div>
+              <div *ngIf="addCustomerForm.controls['password'].errors.minlength">
+                Password is too short
+              </div>
+              <div *ngIf="addCustomerForm.controls['password'].errors.maxlength">
+                Password is too long
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary mx-1" (click)="addCustomer()"
+              [disabled]="submitted && addCustomerForm.invalid">Save</button>
+            <button class="btn btn-outline-primary mx-1" (click)="back()">Back</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

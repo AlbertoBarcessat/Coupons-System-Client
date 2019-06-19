@@ -1,0 +1,38 @@
+<div class="jumbotron">
+  <div class="container">
+    <h4>Companies</h4>
+    <div class="row">
+      <button class="btn btn-primary m-3" (click)="addCompany()">Add company</button>
+    </div>
+    <div *ngIf="companies">
+      <table class="table table-hover">
+        <thead>
+          <tr class="row">
+            <th class="col-3">Company Name</th>
+            <th class="col-3">Password</th>
+            <th class="col-4">Email</th>
+            <th class="col-1"></th>
+            <th class="col-1"></th>
+          </tr>
+        </thead>
+        <tr class="row" *ngFor="let c of companies">
+          <td class="col-3">{{c.companyName}}</td>
+          <td class="col-3">{{c.password}}</td>
+          <td class="col-4">{{c.email}}</td>
+          <td class="col-1">
+            <button class="btn btn-primary" (click)="updateCompany(c)" [disabled]="updateOn">Update</button>
+          </td>
+          <td class="col-1">
+            <button class="btn btn-primary" (click)="removeCompany(c)" [disabled]="updateOn">Remove</button>
+          </td>
+          <td class="col-12" *ngIf="c==selectedCompany && updateOn">
+            <app-update-company [company]="selectedCompany" (onCancel)="cancel()"></app-update-company>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="d-flex flex-row-reverse">
+      <button class="btn btn-outline-primary btn-sm" (click)="backToTop()">Back to top</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<form [formGroup]="updateCompanyForm" (ngSubmit)="onSubmit()" class="row">
+  <td class="col-3">
+    {{company.companyName}}
+  </td>
+  <td class="col-3">
+    <input type="text" formControlName="password" class="form-control" [value]="company.password"
+      [ngClass]="{ 'is-invalid': submitted && updateCompanyForm.controls['password'].errors}" />
+    <div class="invalid-feedback" *ngIf="submitted && updateCompanyForm.controls['password'].errors">
+      <div *ngIf="submitted && updateCompanyForm.controls['password'].errors.required">
+        Password is required
+      </div>
+      <div *ngIf="submitted && updateCompanyForm.controls['password'].errors.minlength">
+        Password is too short
+      </div>
+      <div *ngIf="submitted && updateCompanyForm.controls['password'].errors.maxlength">
+        Password is too long
+      </div>
+    </div>
+  </td>
+  <td class="col-4">
+    <input type="email" formControlName="email" class="form-control" [value]="company.email"
+      [ngClass]="{ 'is-invalid': submitted && updateCompanyForm.controls['email'].errors}" />
+    <div class="invalid-feedback" *ngIf="submitted && updateCompanyForm.controls['email'].errors">
+      <div *ngIf="submitted && updateCompanyForm.controls['email'].errors.required">
+        Email is required
+      </div>
+      <div *ngIf="submitted && updateCompanyForm.controls['email'].errors.email">
+        Email is invalid
+      </div>
+      <div *ngIf="submitted && updateCompanyForm.controls['email'].errors.maxlength">
+        Email is too long
+      </div>
+    </div>
+  </td>
+  <td class="col-1">
+    <button class="btn btn-secondary" (click)="saveCompany(company)">Save</button>
+  </td>
+  <td class="col-1">
+    <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+  </td>
+</form>

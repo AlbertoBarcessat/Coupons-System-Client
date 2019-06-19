@@ -1,0 +1,16 @@
+<nav class="navbar bg-dark navbar-dark sticky-top">
+  <a class="navbar-brand" href="#">Coupon System</a>
+  <div class="d-flex flex-row-reverse">
+    <form class="form-inline">
+      <div class="mx-1">
+        <button *ngIf="!userService.clientType && showHome" class="btn btn-light navbar-btn" (click)="home()">Home</button>
+      </div>
+      <div class="mx-1">
+        <button *ngIf="!userService.clientType && showLogin" class="btn btn-light navbar-btn" (click)="login()">Login</button>
+      </div>
+      <div class="mx-1">
+        <button *ngIf="userService.clientType" class="btn btn-light navbar-btn" (click)="logout()">Logout</button>
+      </div>
+    </form>
+  </div>
+</nav>

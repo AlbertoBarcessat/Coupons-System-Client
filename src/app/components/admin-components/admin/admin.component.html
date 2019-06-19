@@ -1,0 +1,5 @@
+<app-admin-header (onObjectTypeSelect)="updateObjectType($event)"></app-admin-header>
+<div [ngSwitch]="objectType">
+    <app-companies *ngSwitchCase="'companies'"></app-companies>
+    <app-customers *ngSwitchCase="'customers'"></app-customers>
+</div>

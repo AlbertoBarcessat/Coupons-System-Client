@@ -1,0 +1,66 @@
+<div *ngIf="coupon" class="jumbotron">
+  <form [formGroup]="couponForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="form-group col-2 blockquote"><b>{{coupon.title}}</b></div>
+      <div class="form-group col-2">
+        <label><b>Type:</b></label>
+        <div>{{coupon.couponType}}</div>
+      </div>
+      <div *ngIf="isCompany || (isCustomer && allowPurchase)" class="form-group col-2">
+        <label><b>Amount:</b></label>
+        <div>{{coupon.amount | number}}</div>
+      </div>
+      <div *ngIf="isCompany" class="form-group col-2">
+        <label><b>StartDate:</b></label>
+        <div>{{coupon.startDate | date: 'dd/MM/yyyy'}}</div>
+      </div>
+      <div *ngIf="isCompany || (isCustomer && allowPurchase)" class="form-group col-2">
+        <label><b>EndDate:</b></label>
+        <input type="date" formControlName="endDate" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && couponForm.controls['endDate'].errors}" />
+        <div class="invalid-feedback" *ngIf="submitted && couponForm.controls['endDate'].errors">
+          <div *ngIf="submitted && couponForm.controls['endDate'].errors.required">
+            End Date is required
+          </div>
+          <div *ngIf="submitted && couponForm.controls['endDate'].errors.validDate">
+            End date can't be a past date
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-2">
+        <label><b>Price($):</b></label>
+        <input type="number" min=0 formControlName="price" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && couponForm.controls['price'].errors}" />
+        <div class="invalid-feedback" *ngIf="submitted && couponForm.controls['price'].errors">
+          <div *ngIf="submitted && couponForm.controls['price'].errors.required">
+            Price is required
+          </div>
+          <div *ngIf="submitted && couponForm.controls['price'].errors.pattern">
+            Invalid price
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-8">{{coupon.message}}</div>
+      <div class="form-group col-4">
+        <img height="250" [src]="coupon.image">
+      </div>
+    </div>
+    <div class="row">
+      <button *ngIf="isCustomer && allowPurchase" class="btn btn-primary mx-4 mt-1"
+        (click)="purchaseCoupon()">Purchase</button>
+      <button *ngIf="isCompany && !(onUpdate || onRemove)" class="btn btn-primary mx-4 mt-1"
+        [ngClass]="{ 'disabled': onUpdate || onRemove }" (click)="removeCoupon()" id="remove">Remove</button>
+      <button *ngIf="onRemove" class="btn btn-secondary mx-4 mt-1" (click)="confirmRemove()">Confirm</button>
+      <button *ngIf="onRemove" class="btn btn-secondary mx-4 mt-1" (click)="cancelRemove()">Cancel</button>
+      <button *ngIf="isCompany  && !(onUpdate || onRemove)" class="btn btn-primary mx-4 mt-1"
+        [ngClass]="{ 'disabled': onUpdate || onRemove }" (click)="updateCoupon()" id="update">Update</button>
+      <button *ngIf="onUpdate" class="btn btn-secondary mx-4 mt-1" (click)="saveUpdate()">Save</button>
+      <button *ngIf="onUpdate" class="btn btn-secondary mx-4 mt-1" (click)="cancelUpdate()">Cancel</button>
+    </div>
+    <div class="d-flex flex-row-reverse">
+      <button class="btn btn-outline-primary btn-sm" (click)="backToTop()">Back to top</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,116 @@
+<div class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 offset-md-4">
+        <h3>Add Coupon</h3>
+        <form [formGroup]="addCouponForm" (ngSubmit)="onSubmit()" novalidate>
+          <div class="form-group">
+            <label>Title:</label>
+            <input type="text" formControlName="title" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && addCouponForm.controls['title'].errors}" />
+            <div class="invalid-feedback" *ngIf="submitted && addCouponForm.controls['title'].errors">
+              <div *ngIf="submitted && addCouponForm.controls['title'].errors.required">
+                Title is required
+              </div>
+              <div *ngIf="submitted && addCouponForm.controls['title'].errors.minlength">
+                Title is too short
+              </div>
+              <div *ngIf="submitted && addCouponForm.controls['title'].errors.maxlength">
+                Title is too long
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Type:</label>
+              <select formControlName="type" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && addCouponForm.controls['type'].errors}">
+                <option *ngFor="let type of sharedService.getOnceCouponTypes()">{{type}}</option>
+              </select>
+            <div class="invalid-feedback" *ngIf="submitted && addCouponForm.controls['type'].errors">
+              <div *ngIf="submitted && addCouponForm.controls['type'].errors.required">
+                Type is required
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Price($):</label>
+            <input type="number" min=0 formControlName="price" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && addCouponForm.controls['price'].errors}" />
+            <div class="invalid-feedback" *ngIf="submitted && addCouponForm.controls['price'].errors">
+              <div *ngIf="submitted && addCouponForm.controls['price'].errors.required">
+                Price is required
+              </div>
+              <div *ngIf="submitted && addCouponForm.controls['price'].errors.pattern">
+                Invalid price
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Amount:</label>
+            <input type="number" min=1 formControlName="amount" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && addCouponForm.controls['amount'].errors}" />
+            <div class="invalid-feedback" *ngIf="submitted && addCouponForm.controls['amount'].errors">
+              <div *ngIf="submitted && addCouponForm.controls['amount'].errors.required">
+                Amount is required
+              </div>
+              <div *ngIf="submitted && addCouponForm.controls['amount'].errors.pattern">
+                Invalid amount
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>End Date:</label>
+            <input type="date" formControlName="endDate" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && addCouponForm.controls['endDate'].errors}" />
+            <div class="invalid-feedback" *ngIf="submitted && addCouponForm.controls['endDate'].errors">
+              <div *ngIf="submitted && addCouponForm.controls['endDate'].errors.required">
+                End Date is required
+              </div>
+              <div *ngIf="submitted && addCouponForm.controls['endDate'].errors.validDate">
+                End date can't be a past date
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Message:</label>
+            <textarea rows="10" formControlName="message" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && addCouponForm.controls['message'].errors}">
+            </textarea>
+            <div class="invalid-feedback" *ngIf="submitted && addCouponForm.controls['message'].errors">
+              <div *ngIf="submitted && addCouponForm.controls['message'].errors.required">
+                Message is required
+              </div>
+              <div *ngIf="submitted && addCouponForm.controls['message'].errors.minlength">
+                Message is too short
+              </div>
+              <div *ngIf="submitted && addCouponForm.controls['message'].errors.maxlength">
+                Message is too long
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Image:</label>
+            <input type="file" formControlName="image" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && addCouponForm.controls['image'].errors}" />
+            <div class="invalid-feedback" *ngIf="submitted && addCouponForm.controls['image'].errors">
+              <div *ngIf="submitted && addCouponForm.controls['image'].errors.required">
+                Image is required
+              </div>
+              <div *ngIf="submitted && addCouponForm.controls['image'].errors.maxlength">
+                Image is too long
+              </div>
+              <div *ngIf="submitted && addCouponForm.controls['image'].errors.pattern">
+                Invalid image format - use png, jpg, jpeg, gif or webp files only
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary mx-1" (click)="addCoupon()"
+              [disabled]="submitted && addCouponForm.invalid">Save</button>
+            <button class="btn btn-outline-primary mx-1" (click)="back()">Back</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
